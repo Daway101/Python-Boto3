@@ -34,8 +34,14 @@ class HtmlManager:
 
 class AWSmanager:
     def __init__(self):
-        pass
+        self.s3=boto3.resource('s3')
    
+    def listBucketFile(self, bucketName):
+        bucket = self.s3.Bucket(bucketName)
+        files = bucket.objects.all()
+        for file in files:
+            print(file.key)
+        
     #define connections to boto3 and save file to s3
     def save_to_s3(self):   
         s3 = boto3.client('s3')
@@ -47,3 +53,4 @@ manager.save_html_file()
 
 aws_manager= AWSmanager()
 aws_manager.save_to_s3()
+aws_manager.listBucketFile("lmtd-class")
